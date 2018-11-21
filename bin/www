@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+const app = require('../index.js');
+
+const port = 3000;
+const host = 'localhost';
+
+app.listen(port, host, (err) => {
+    if(err){
+        console.log(`Could not listen to ${host}:${port}! :(`);
+    } else {
+        console.log(`Listening to ${host}:${port}! :)`);
+    }
+});
