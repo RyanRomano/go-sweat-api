@@ -1,8 +1,8 @@
 const express = require('express');
-const pool = require('./db')
-const app = express();
+const sessionsRouter = express.Router();
+const pool = require('../db');
 
-app.get('/', (req, res) => {
+sessionsRouter.get('/', (req, res) => {
     pool.query(
         'SELECT * FROM exercises',
         (error, response) => {
@@ -15,4 +15,6 @@ app.get('/', (req, res) => {
     );
 });
 
-module.exports = app;
+// get, post, put, delete endpoints here
+
+module.exports = sessionsRouter;
