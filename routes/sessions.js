@@ -28,6 +28,20 @@ sessionsRouter.get('/:id', (req, res) => {
     );
 });
 
+sessionsRouter.post('/', (req, res) => {
+    const {date, muscles_worked} = req.body;
+    pool.query(
+        'INSERT INTO sessions(date, muscles_worked) VALUES($1, $2)', [date, muscles_worked],
+        (error) => {
+            if(error){
+                console.log(error);
+            } else {
+                res.send('Successfully posted!');
+            }
+        }
+    );
+});
+
 // get, post, put, delete endpoints here
 
 module.exports = sessionsRouter;
