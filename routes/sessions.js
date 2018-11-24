@@ -56,6 +56,20 @@ sessionsRouter.delete('/:id', (req, res) => {
     );
 });
 
+sessionsRouter.put('/:id', (req, res) => {
+    pool.query(
+        'UPDATE sessions SET muscles_worked = $1 WHERE sessions.id = $2',
+        [req.body.muscles_worked, req.params.id],
+        (error, response) => {
+            if(error){
+                console.log(error);
+            } else {
+                res.send('Successfully updated');
+            }
+        }
+    );
+});
+
 // get, post, put, delete endpoints here
 
 module.exports = sessionsRouter;
