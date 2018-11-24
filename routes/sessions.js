@@ -42,6 +42,20 @@ sessionsRouter.post('/', (req, res) => {
     );
 });
 
+sessionsRouter.delete('/:id', (req, res) => {
+    pool.query(
+        'DELETE FROM sessions WHERE sessions.id = $1', 
+        [req.params.id],
+        (error) => {
+            if(error){
+                console.log(error);
+            } else {
+                res.send('Successfully deleted!');
+            }
+        }
+    );
+});
+
 // get, post, put, delete endpoints here
 
 module.exports = sessionsRouter;
