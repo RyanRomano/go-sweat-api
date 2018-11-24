@@ -4,7 +4,7 @@ const pool = require('../db');
 
 sessionsRouter.get('/', (req, res) => {
     pool.query(
-        'SELECT * FROM exercises',
+        'SELECT id, date, muscles_worked FROM sessions',
         (error, response) => {
             if(error){
                 console.log(error);
