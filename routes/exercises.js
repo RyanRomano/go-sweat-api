@@ -60,4 +60,16 @@ exercisesRouter.put('/:id', (req, res) => {
     });
 });
 
+exercisesRouter.delete('/:id', (req, res) => {
+    pool.query('DELETE FROM exercises WHERE id = $1',
+    [req.params.id],
+    (error, response) => {
+        if(error){
+            console.log(error);
+        } else {
+            res.send('Successfully deleted')
+        }
+    });
+});
+
 module.exports = exercisesRouter;
