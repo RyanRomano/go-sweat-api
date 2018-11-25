@@ -19,15 +19,3 @@ workoutRouter.get('/', (req, res) => {
 });
 
 module.exports = workoutRouter;
-
-
-// id           | integer                |           | not null | nextval('workouts_id_seq'::regclass)
-//  session_id (date)  | integer                |           | not null | 
-//  exercise_id (exercise name) | integer                |           | not null | 
-//  equipment_id (equipment type )| integer                |           | not null | 
-//  sets         | integer                |           |          | 
-//  reps         | integer                |           |          | 
-//  set1         | integer                |           |          | 
-//  set2         | integer                |           |          | 
-//  set3         | integer                |           |          | 
-//  notes   
