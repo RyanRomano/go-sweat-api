@@ -57,7 +57,6 @@ workoutRouter.delete('/:id', (req, res) => {
             if(error){
                 console.log(error);
             } else {
-                res.send('Successfully updated!');
                 res.send('Successfully deleted!');
             }
         }
