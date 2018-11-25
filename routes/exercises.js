@@ -46,4 +46,18 @@ exercisesRouter.post('/', (req, res) => {
     );
 });
 
+exercisesRouter.put('/:id', (req, res) => {
+    const {exercise_name, muscle_group_id} = req.body;
+    pool.query('UPDATE exercises SET exercise_name = $1, muscle_group_id = $2 ' + 
+    'WHERE exercises.id = $3',
+    [exercise_name, muscle_group_id, req.params.id],
+    (error, response) => {
+        if(error){
+            console.log(error);
+        } else {
+            res.send('Successfully updated!')
+        }
+    });
+});
+
 module.exports = exercisesRouter;
