@@ -31,4 +31,19 @@ exercisesRouter.get('/:id', (req, res) => {
     );
 });
 
+exercisesRouter.post('/', (req, res) => {
+    const {exercise_name, muscle_group_id} = req.body;
+    pool.query(
+        'INSERT INTO exercises (exercise_name, muscle_group_id) VALUES ($1, $2)',
+        [exercise_name, muscle_group_id],
+        (error, response) => {
+            if(error){
+                console.log(error);
+            } else {
+                res.send('Successfully posted');
+            }
+        }
+    );
+});
+
 module.exports = exercisesRouter;
