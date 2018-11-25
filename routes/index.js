@@ -1,10 +1,10 @@
 const {Router} = require('express');
 const routes = Router();
 
-const home = require('./home.js');
-const sessions = require('./sessions.js');
-const exercises = require('./exercises.js');
-const workouts = require('./workouts.js');
+const home = require('./routers/home');
+const sessions = require('./routers/sessions.js');
+const exercises = require('./routers/exercises.js');
+const workouts = require('./routers/workouts.js');
 
 // Define routes here
 // Define nested routes within each route file

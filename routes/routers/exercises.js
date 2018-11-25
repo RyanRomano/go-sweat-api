@@ -1,6 +1,6 @@
 const express = require('express');
 const exercisesRouter = express.Router();
-const pool = require('../db');
+const pool = require('../../db');
 
 exercisesRouter.get('/', (req, res) => {
     pool.query(
