@@ -1,6 +1,6 @@
 const express = require('express');
 const sessionsRouter = express.Router();
-const pool = require('../db');
+const pool = require('../../db');
 
 sessionsRouter.get('/', (req, res) => {
     pool.query(
