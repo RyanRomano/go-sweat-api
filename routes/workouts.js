@@ -50,6 +50,20 @@ workoutRouter.post('/', (req, res) => {
     });
 });
 
+workoutRouter.delete('/:id', (req, res) => {
+    pool.query('DELETE FROM workouts WHERE id = $1',
+        [req.params.id],
+        (error, response) => {
+            if(error){
+                console.log(error);
+            } else {
+                res.send('Successfully updated!');
+                res.send('Successfully deleted!');
+            }
+        }
+    );
+});
+
 workoutRouter.put('/:id', (req, res) => {
     const {exercise_id, equipment_id, sets, reps, set1, set2, set3, notes} = req.body;
     pool.query('UPDATE workouts SET exercise_id = $1, equipment_id = $2, ' +
