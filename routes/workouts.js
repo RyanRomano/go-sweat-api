@@ -50,4 +50,17 @@ workoutRouter.post('/', (req, res) => {
     });
 });
 
+workoutRouter.delete('/:id', (req, res) => {
+    pool.query('DELETE FROM workouts WHERE id = $1',
+        [req.params.id],
+        (error, response) => {
+            if(error){
+                console.log(error);
+            } else {
+                res.send('Successfully deleted!');
+            }
+        }
+    );
+});
+
 module.exports = workoutRouter;
