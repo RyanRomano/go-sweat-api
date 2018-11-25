@@ -36,4 +36,18 @@ workoutRouter.get('/:id', (req, res) => {
     );
 });
 
+workoutRouter.post('/', (req, res) => {
+    const {session_id, exercise_id, equipment_id, sets, reps, set1, set2, set3, notes} = req.body;
+    pool.query('INSERT INTO workouts(session_id, exercise_id, equipment_id, sets, reps, set1, set2, set3, notes) ' + 
+    'VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+    [session_id, exercise_id, equipment_id, sets, reps, set1, set2, set3, notes],
+    (error, response) => {
+        if(error){
+            console.log(error);
+        } else {
+            res.send('Successfully posted!');
+        }
+    });
+});
+
 module.exports = workoutRouter;
