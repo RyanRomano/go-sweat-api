@@ -50,4 +50,20 @@ workoutRouter.post('/', (req, res) => {
     });
 });
 
+workoutRouter.put('/:id', (req, res) => {
+    const {exercise_id, equipment_id, sets, reps, set1, set2, set3, notes} = req.body;
+    pool.query('UPDATE workouts SET exercise_id = $1, equipment_id = $2, ' +
+        'sets = $3, reps = $4, set1 = $5, set2 = $6, set3 = $7, notes = $8 ' + 
+        'WHERE id = $9',
+        [exercise_id, equipment_id, sets, reps, set1, set2, set3, notes, req.params.id],
+        (error, response) => {
+            if(error){
+                console.log(error);
+            } else {
+                res.send('Successfully updated!');
+            }
+        }
+    );
+});
+
 module.exports = workoutRouter;
