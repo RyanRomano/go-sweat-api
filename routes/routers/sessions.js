@@ -42,7 +42,6 @@ sessionsRouter.post('/', (req, res) => {
     );
 });
 
-
 sessionsRouter.get('/:id/workouts', (req, res) => {
     pool.query(
         'SELECT w.id, w.session_id, s.date, ex.exercise_name, eq.equipment_type, w.sets, w.reps, w.set1, w.set2, w.set3, w.notes ' +
