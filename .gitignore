@@ -1,1 +1,3 @@
-db_config/
+ash_modules/
+.env.local
+node_modules/
