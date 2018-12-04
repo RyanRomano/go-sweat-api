@@ -60,5 +60,7 @@ ash migrate
 ### 8. Now Run it
 ```
 npm start
-#Should now see this message: Listening to localhost:3000! :)
 ```
+Should now see this message: Listening to localhost:3000! :)
+
+[The next step is to install the front end](https://github.com/RyanRomano/go-sweat-view)
