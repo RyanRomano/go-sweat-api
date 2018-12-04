@@ -60,4 +60,5 @@ ash migrate
 ### 8. Now Run it
 ```
 npm start
+#Should now see this message: Listening to localhost:3000! :)
 ```
