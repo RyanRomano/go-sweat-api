@@ -4,24 +4,37 @@
 Install the following dependencies:
 - [Node](https://nodejs.org/en/)
 - [Postgres](https://postgresapp.com/)
-- [Ash](https://github.com/ash-shell/ash) (Directions Below)
 
-## 2. Clone repo
+### 2. Install Ash - Migration Manager
+```sh
+#Save in Downloads for example
+cd ~/Downloads
+git clone --recursive https://github.com/ash-shell/ash.git
+cd /usr/local/bin
+ln -s /Users/~~YOUR COMPUTER USER HERE~~~/Downloads/ash/ash
+
+#Verify symlink (should ouput /usr/local/bin/ash)
+which ash
+```
+
+### 3. Clone go-sweat-api repo (to your favorite project directory)
 ```sh
 git clone git@github.com:RyanRomano/go-sweat-api.git
 ```
 
-### 3. Create the database
+### 4. Create the database (any terminal tab)
 ```sh
 createdb sweat_db_local
 ```
 
-### 4. Install node dependencies
+### 5. Install node and ash dependencies (in go-sweat-api directory)
 ```
 npm i
+ash apm:install git@github.com:ash-shell/sql.git
+ash apm:install git@github.com:ash-shell/migrate.git
 ```
 
-### 5. Configure the .env file
+### 6. Configure the .env file (in go-sweat-api directory)
 ```sh
 cp .env.sample .env.local
 
@@ -30,37 +43,24 @@ export SQL_POSTGRES_USER='your login here'
 export SQL_POSTGRES_PASSWORD='your password here'
 export SQL_POSTGRES_HOST='probably localhost'
 export SQL_POSTGRES_PORT='check what port postgres is running on'
-#This must match the db name created in step 3:
-export SQL_POSTGRES_DATABASE_NAME='sweat_db_local'
 
-#Save the file and back in your repo directory, source env variables with:
+#Save the file and back in your go-sweat-api directory, source env variables with:
 source .env.local 
 ```
 
-### 6. Install Ash
-```sh
-#Save in downloads (or where ever you like)
-cd ~/Downloads
-git clone --recursive https://github.com/ash-shell/ash.git
-cd /usr/local/bin
-ln -s /Users/~~YOUR COMPUTER USER HERE~~~/Downloads/ash .
-
-#Back in your cloned repo directory:
-ash apm:install git@github.com:ash-shell/sql.git
-ash apm:install git@github.com:ash-shell/migrate.git
-```
-
-Also, ensure your [~/.pgpass file](https://www.postgresql.org/docs/9.3/libpq-pgpass.html) is configured with the credentials you have set up in that file.
-
-### 7. Set up the Database Schema
+### 7. Set up the Database Schema (in go-sweat-api directory)
 ```sh
 ash migrate
 ```
 
-### 8. Now Run it
+### 8. Now Run it (in go-sweat-api directory)
 ```
 npm start
 ```
 Should now see this message: Listening to localhost:3000! :)
 
 [The next step is to install the front end](https://github.com/RyanRomano/go-sweat-view)
+
+==============================
+
+If having errors with logging into psql, ensure your [~/.pgpass file](https://www.postgresql.org/docs/9.3/libpq-pgpass.html) is configured correctly.
