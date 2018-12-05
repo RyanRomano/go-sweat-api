@@ -43,9 +43,6 @@ export SQL_POSTGRES_USER='your login here'
 export SQL_POSTGRES_PASSWORD='your password here'
 export SQL_POSTGRES_HOST='probably localhost'
 export SQL_POSTGRES_PORT='check what port postgres is running on'
-
-#Save the file and back in your go-sweat-api directory, source env variables with:
-source .env.local 
 ```
 
 ### 7. Set up the Database Schema (in go-sweat-api directory)
