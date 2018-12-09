@@ -20,7 +20,7 @@ workoutRouter.get('/', (req, res) => {
 
 workoutRouter.get('/:id', (req, res) => {
     pool.query(
-        'SELECT w.id, s.date, ex.id, eq.id, ex.exercise_name, eq.equipment_type, w.sets, w.reps, w.set1, w.set2, w.set3, w.notes ' +
+        'SELECT w.id, s.date, w.exercise_id, w.equipment_id, ex.exercise_name, eq.equipment_type, w.sets, w.reps, w.set1, w.set2, w.set3, w.notes ' +
         'FROM workouts w JOIN sessions s ON w.session_id = s.id ' +
         'JOIN exercises ex ON w.exercise_id = ex.id ' +
         'JOIN equipment eq ON w.equipment_id = eq.id ' + 
