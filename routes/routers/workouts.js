@@ -4,7 +4,7 @@ const pool = require('../../db');
 
 workoutRouter.get('/', (req, res) => {
     pool.query(
-        'SELECT w.id, w.session_id, ex.id, eq.id, s.date, ex.exercise_name, eq.equipment_type, w.sets, w.reps, w.set1, w.set2, w.set3, w.notes ' +
+        'SELECT w.id, w.session_id, s.date, ex.exercise_name, eq.equipment_type, w.sets, w.reps, w.set1, w.set2, w.set3, w.notes ' +
         'FROM workouts w JOIN sessions s ON w.session_id = s.id ' +
         'JOIN exercises ex ON w.exercise_id = ex.id ' +
         'JOIN equipment eq ON w.equipment_id = eq.id',
@@ -20,7 +20,7 @@ workoutRouter.get('/', (req, res) => {
 
 workoutRouter.get('/:id', (req, res) => {
     pool.query(
-        'SELECT w.id, s.date, ex.exercise_name, eq.equipment_type, w.sets, w.reps, w.set1, w.set2, w.set3, w.notes ' +
+        'SELECT w.id, s.date, ex.id, eq.id, ex.exercise_name, eq.equipment_type, w.sets, w.reps, w.set1, w.set2, w.set3, w.notes ' +
         'FROM workouts w JOIN sessions s ON w.session_id = s.id ' +
         'JOIN exercises ex ON w.exercise_id = ex.id ' +
         'JOIN equipment eq ON w.equipment_id = eq.id ' + 
