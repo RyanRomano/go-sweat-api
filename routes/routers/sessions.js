@@ -20,7 +20,7 @@ sessionsRouter.get('/:id', (req, res) => {
         'SELECT id, date, muscles_worked FROM sessions WHERE sessions.id = $1',[req.params.id],
         (error, response) => {
             if(error){
-                console.log(error);
+                res.status(500).send("Invalid session ID");
             } else {
                 res.send(response.rows);
             }
