@@ -5,7 +5,7 @@ const routes = require('./routes/index.js');
 const cors = require('cors');
 
 app.use(cors({
-    origin: 'http://localhost:1234'
+    origin: `http://${process.env.CORS_HOST}:${process.env.CORS_PORT}`
 }));
 
 app.use(bodyParser.json());
