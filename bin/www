@@ -2,8 +2,8 @@
 
 const app = require('../app.js');
 
-const port = process.env.CORS_DB_PORT;
-const host = process.env.CORS_HOST;
+const host = process.env.APP_SERVER_HOST
+const port = process.env.APP_SERVER_PORT;
 
 app.listen(port, host, (err) => {
     if(err){
