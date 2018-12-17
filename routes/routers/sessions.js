@@ -21,7 +21,7 @@ sessionsRouter.get('/', (req, res) => {
 
 sessionsRouter.get('/:id/workouts', (req, res) => {
     pool.query(
-        'SELECT workouts.id, exercises.name, equipment.name, sets.weight, sets.reps, workouts.notes from workouts ' +
+        'SELECT workouts.id, exercises.name, equipment.name AS type, sets.weight, sets.reps, workouts.notes from workouts ' +
         'LEFT OUTER JOIN exercises ON workouts.exercise_id = exercises.id ' +
         'LEFT OUTER JOIN equipment ON exercises.equipment_id = equipment.id ' +
         'LEFT OUTER JOIN sets ON workouts.id = sets.workout_id ' + 
