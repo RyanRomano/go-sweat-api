@@ -4,39 +4,16 @@ const pool = require('../../db');
 
 sessionsRouter.get('/', (req, res) => {
     pool.query(
-        'SELECT id, date, muscles_worked FROM sessions',
+        'SELECT sessions.id, sessions.date, muscle_groups.name FROM sessions ' + 
+        'LEFT OUTER JOIN workouts ON sessions.id = workouts.session_id ' + 
+        'LEFT OUTER JOIN exercises ON workouts.exercise_id = exercises.id ' + 
+        'LEFT OUTER JOIN exercise_muscle_groups ON exercises.id = exercise_muscle_groups.exercise_id ' + 
+        'LEFT OUTER JOIN muscle_groups ON exercise_muscle_groups.muscle_group_id = muscle_groups.id',
         (error, response) => {
             if(error){
                 console.log(error);
             } else {
                 res.send(response.rows);
-            }
-        }
-    );
-});
-
-sessionsRouter.get('/:id', (req, res) => {
-    pool.query(
-        'SELECT id, date, muscles_worked FROM sessions WHERE sessions.id = $1',[req.params.id],
-        (error, response) => {
-            if(error){
-                res.status(500).send("Invalid session ID");
-            } else {
-                res.send(response.rows);
-            }
-        }
-    );
-});
-
-sessionsRouter.post('/', (req, res) => {
-    const {date, muscles_worked} = req.body;
-    pool.query(
-        'INSERT INTO sessions(date, muscles_worked) VALUES($1, $2)', [date, muscles_worked],
-        (error) => {
-            if(error){
-                console.log(error);
-            } else {
-                res.send('Successfully posted!');
             }
         }
     );
@@ -44,17 +21,31 @@ sessionsRouter.post('/', (req, res) => {
 
 sessionsRouter.get('/:id/workouts', (req, res) => {
     pool.query(
-        'SELECT w.id, w.session_id, w.exercise_id, w.equipment_id, s.date, ex.exercise_name, eq.equipment_type, w.sets, w.reps, w.set1, w.set2, w.set3, w.notes ' +
-        'FROM workouts w JOIN sessions s ON w.session_id = s.id ' +
-        'JOIN exercises ex ON w.exercise_id = ex.id ' +
-        'JOIN equipment eq ON w.equipment_id = eq.id ' + 
-        'WHERE w.session_id = $1',
+        'SELECT workouts.id, exercises.name, equipment.name AS type, sets.weight, sets.reps, workouts.notes from workouts ' +
+        'LEFT OUTER JOIN exercises ON workouts.exercise_id = exercises.id ' +
+        'LEFT OUTER JOIN equipment ON exercises.equipment_id = equipment.id ' +
+        'LEFT OUTER JOIN sets ON workouts.id = sets.workout_id ' + 
+        'WHERE workouts.session_id = $1',
         [req.params.id],
         (error, response) => {
             if(error){
                 console.log(error);
             } else {
                 res.send(response.rows);
+            }
+        }
+    )
+});
+
+sessionsRouter.post('/', (req, res) => {
+    const {date} = req.body;
+    pool.query(
+        'INSERT INTO sessions(date) VALUES($1)', [date],
+        (error) => {
+            if(error){
+                console.log(error);
+            } else {
+                res.send('Successfully posted!');
             }
         }
     );
@@ -73,21 +64,5 @@ sessionsRouter.delete('/:id', (req, res) => {
         }
     );
 });
-
-sessionsRouter.put('/:id', (req, res) => {
-    pool.query(
-        'UPDATE sessions SET muscles_worked = $1 WHERE sessions.id = $2',
-        [req.body.muscles_worked, req.params.id],
-        (error, response) => {
-            if(error){
-                console.log(error);
-            } else {
-                res.send('Successfully updated');
-            }
-        }
-    );
-});
-
-// get, post, put, delete endpoints here
 
 module.exports = sessionsRouter;
