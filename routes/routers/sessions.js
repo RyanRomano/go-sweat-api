@@ -1,68 +1,54 @@
-const express = require('express');
-const sessionsRouter = express.Router();
-const pool = require('../../db');
+const express = require('express')
+const sessionsRouter = express.Router()
+const sessions = require('../../models/sessions')
 
 sessionsRouter.get('/', (req, res) => {
-    pool.query(
-        'SELECT sessions.id, sessions.date, muscle_groups.name FROM sessions ' + 
-        'LEFT OUTER JOIN workouts ON sessions.id = workouts.session_id ' + 
-        'LEFT OUTER JOIN exercises ON workouts.exercise_id = exercises.id ' + 
-        'LEFT OUTER JOIN exercise_muscle_groups ON exercises.id = exercise_muscle_groups.exercise_id ' + 
-        'LEFT OUTER JOIN muscle_groups ON exercise_muscle_groups.muscle_group_id = muscle_groups.id',
-        (error, response) => {
-            if(error){
-                console.log(error);
-            } else {
-                res.send(response.rows);
-            }
-        }
-    );
-});
+    let limit = 10
+    let offset = 0
 
-sessionsRouter.get('/:id/workouts', (req, res) => {
-    pool.query(
-        'SELECT workouts.id, exercises.name, equipment.name AS type, sets.weight, sets.reps, workouts.notes from workouts ' +
-        'LEFT OUTER JOIN exercises ON workouts.exercise_id = exercises.id ' +
-        'LEFT OUTER JOIN equipment ON exercises.equipment_id = equipment.id ' +
-        'LEFT OUTER JOIN sets ON workouts.id = sets.workout_id ' + 
-        'WHERE workouts.session_id = $1',
-        [req.params.id],
-        (error, response) => {
-            if(error){
-                console.log(error);
-            } else {
-                res.send(response.rows);
-            }
+    //Validate the limit param
+    if(typeof req.query.limit !== 'undefined') {
+        // Check that limit is a number
+        if(isNaN(req.query.limit)){
+            res.status(400).send('Oh shit limit is fucked')
+            return
         }
-    )
-});
+    } 
+    // Check if limit between 1 and 100
+    if( !(req.query.limit >= 1) || !(req.query.limit <= 100) ){
+        res.status(400).send('Limit must be between 1 and 100')
+        return
+    }
+    // Set limit if its valid
+    limit = req.query.limit
 
-sessionsRouter.post('/', (req, res) => {
-    const {date} = req.body;
-    pool.query(
-        'INSERT INTO sessions(date) VALUES($1)', [date],
-        (error) => {
-            if(error){
-                console.log(error);
-            } else {
-                res.send('Successfully posted!');
-            }
+    //Validate the offset param
+    if(typeof req.query.offset !== 'undefined'){
+        // Check that offset is a number
+        if(isNaN(req.query.offset)){
+            res.status(400).send('Offset is fucced')
+            return
         }
-    );
-});
+    }
+    // Check if offset greater than 0
+    if(!(req.query.offset >= 0)){
+        res.status(400).send('Offset must be greater than or equal to zero')
+        return
+    }
+    // Set offset if valid
+    offset = req.query.offset
 
-sessionsRouter.delete('/:id', (req, res) => {
-    pool.query(
-        'DELETE FROM sessions WHERE sessions.id = $1', 
-        [req.params.id],
-        (error) => {
-            if(error){
-                console.log(error);
-            } else {
-                res.send('Successfully deleted!');
-            }
+    // Limit and offset ok at this point
+    //Try to fetch from
+    sessions.fetchAll(limit, offset, (err, dbResp) => {
+        // Verify theres no db error
+        if(typeof err !== 'undefined'){
+            res.status(500).send('Db error')
+            return
         }
-    );
-});
 
-module.exports = sessionsRouter;
+        res.status(200).send(dbResp.rows)
+    })
+})
+
+module.exports = sessionsRouter
