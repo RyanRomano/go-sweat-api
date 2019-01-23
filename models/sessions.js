@@ -36,7 +36,9 @@ const fetchExpanded = (id, callback) => {
         }
 
         // Expand the workouts, passing along the callback
-        expandWorkouts(dbResp.rows[0], callback)
+        // dbResponse is the session
+        let session = dbResp.rows[0]
+        expandWorkouts(session, callback)
     });
 }
 
@@ -68,11 +70,13 @@ const expandExercises = (session, callback) => {
         // with the approprate exercise object
         session.workouts.forEach((workout) => {
             workout.exercise = dbResp.rows.filter((exercise) => exercise.id === workout.exercise_id)[0]
+            //Removes duplicate exercise id value
             delete workout.exercise_id
         })
 
         // Expand the equipment_id for each workout
         expandEquipment(session, callback)
+        // callback(undefined, session)
     })
 }
 
@@ -93,6 +97,7 @@ const expandEquipment = (session, callback) => {
 
         // Expand the sets for each workout
         expandSets(session, callback)
+        // callback(undefined, session)
     })
 }
 
@@ -110,6 +115,8 @@ const expandSets = (session, callback) => {
         })
 
         // Finally, callback
+        // Callback params: (error, data to return)
+        // Return undefined if no error - already error checked at this point
         callback(undefined, session)
     })
 }
