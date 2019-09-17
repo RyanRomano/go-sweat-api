@@ -1,5 +1,10 @@
 # go-sweat-api
 
+## Overview
+Go Sweat is built with Node, Express, ReactJS, Postgres. This API backend provides endpoints for frontend applications by HTTP request.
+
+
+
 ## 1. Getting Started
 Install the following dependencies:
 - [Node](https://nodejs.org/en/)
