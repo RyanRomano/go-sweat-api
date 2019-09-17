@@ -1,9 +1,31 @@
 # go-sweat-api
 
 ## Overview
-Go Sweat is built with Node, Express, ReactJS, Postgres. This API backend provides endpoints for frontend applications by HTTP request.
+Go Sweat is built with Node, Express, ReactJS, Postgres, as a fullstack MVC project. This API backend provides endpoints for frontend applications by HTTP request (fetch). The API backend can be installed and run on any machine or server, and exposes CRUD operations for a local database (Postgres in this case).
 
+Node dependencies include:
+cors
+express
+pg
+body-parser
 
+The 'pg' module allows for simple database queries, otherwise known as 'pooling'.
+
+The models for this application are:
+Sessions 
+Workouts
+Sets
+Exercises
+Equipment
+
+The architecture follows the following understanding:
+A user working out will do so for a specific period of time, a.k.a. a 'session'
+In each 'session' a user may do one or more 'workouts' - repetition of a specific exercise
+Each 'workout' may have one or more 'set' - one or more repetitions of the exercise
+An exercise is a vocabulary term - a user may choose an existing exercise, or create their own.
+Each exercise is associated with a specific piece of equipment - i.e. bodyweight, dumbbells, jugs of water, etc.
+
+Users may log their sessions, workouts, and sets with which exercise and equipment - which is stored in the database. 
 
 ## 1. Getting Started
 Install the following dependencies:
